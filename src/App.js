@@ -1,22 +1,40 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { toggleBoundaryConditions, timeStep } from './particle.js';
 import './App.css';
 
+
 function App() {
+  const [ boundaryType, setBoundaryType ] = useState("RIGID");
+  const handleClickBC = () => {
+    toggleBoundaryConditions();
+    setBoundaryType(boundaryType === "PBC" ? "RIGID" : "PBC");
+  }
+
+  const [ timeStep, setSpeed ] = useState(1);
+  const handleSpeedDecrement = () => {
+    if (timeStep > 1) {
+      setSpeed(timeStep - 1);
+    }
+  };
+  const handleSpeedIncrement = () => {
+    if (timeStep < 5) {
+      setSpeed(timeStep + 1);
+    }
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <script src="./particle.js"></script>
+      <header>
+        <div className="menuDiv">
+          <div className="lineSpan menuItemSpan" onClick={handleClickBC}>BC: {boundaryType}</div>
+          <div className="lineSpan">
+            <span className="menuItemSpan" onClick={handleSpeedDecrement}>&lt;</span>
+            <span>  {timeStep}x  </span>
+            <span className="menuItemSpan" onClick={handleSpeedIncrement}>&gt;</span>
+          </div>
+        </div>
       </header>
     </div>
   );
